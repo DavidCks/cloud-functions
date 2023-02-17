@@ -30,7 +30,7 @@ app.get("/deploy", (rq, res) => {
 	// send the request
 	let req = https.request(options, (response) => {
 		console.log(`statusCode: ${response.statusCode}`);
-		res.status(200).send(response);
+		res.status(200).send(json(response));
 	});
 
 	req.on("error", (error) => {
