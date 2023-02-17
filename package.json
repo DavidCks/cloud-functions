@@ -1,0 +1,24 @@
+{
+  "name": "cloud-functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidCks/cloud-functions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidCks/cloud-functions/issues"
+  },
+  "homepage": "https://github.com/DavidCks/cloud-functions#readme",
+  "dependencies": {
+    "axios": "^1.3.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+}
