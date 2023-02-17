@@ -4,7 +4,7 @@ const app = express();
 
 
 app.all('*', handleRouting);
-
+//a
 function handleRouting(req, res) {
 	if (req.method === 'POST' || "GET" && req.originalUrl === '/trigger_deploy') {
 		const url = `${Deno.env.GITHUB_REPOSITORY_URL || "https://github.com/DavidCks/DavidCks.github.io.git"}`;
