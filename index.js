@@ -1,27 +1,48 @@
-require('dotenv').config();
-const express = require('express');
-const axios = require('axios');
-
+const express = require("express");
 const app = express();
+const https = require("https");
 
-app.all('*', handleRouting);
+const PORT = process.env.PORT || 3000;
 
-function handleRouting(req, res) {
-	if (req.method === 'POST' || 'GET' && req.originalUrl === '/trigger_deploy') {
-		const url = "https://api.github.com/repos/DavidCks/DavidCks.github.io/dispatches";
-		const body = {event_type:'deploy',client_payload:{unit:false,integration:true}};
-		const options = {
-			headers: {
-				Accept: 'application/vnd.github+json',
-				'X-GitHub-Api-Version': "2022-11-28",
-				Authorization: 'Bearer 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',
-			},
-		};
-		axios.post(url, body, options);
-		res.send('Deployment triggered');
-	} else {
-		res.sendStatus(403);
-	}
-}
+// endpoint that triggers the HTTP request
+app.get("/deploy", (rq, res) => {
+// define the request options
+	const options = {
+		hostname: "api.github.com",
+		port: 443,
+		path: "/repos/DavidCks/DavidCks.github.io/dispatches",
+		method: "POST",
+		headers: {
+			Accept: "application/vnd.github+json",
+			Authorization: "Bearer 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",
+			"X-GitHub-Api-Version": "2022-11-28",
+		},
+	};
 
-app.listen(process.env.PORT || 2345, () => console.log(`Server started on port ${process.env.PORT || 2345} `));
+	const data = JSON.stringify({
+		event_type: "deploy",
+		client_payload: {
+			unit: false,
+			integration: true,
+		},
+	});
+
+	// send the request
+	let req = https.request(options, (response) => {
+		console.log(`statusCode: ${response.statusCode}`);
+		res.status(200).send("Deployment request sent successfully!");
+	});
+
+	req.on("error", (error) => {
+		console.error(error);
+		res.status(500).send("Internal Server Error");
+	});
+
+	req.write(data);
+	req.end();
+});
+
+// start the server
+app.listen(PORT, () => {
+console.log(`Server listening on port ${PORT}`);
+});
